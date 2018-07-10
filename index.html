@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8" />
+
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- tooltipster for demo and jquery -->
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="vendor/tooltipster/jquery.tooltipster.min.js"></script>
+	<link href="vendor/tooltipster/tooltipster.css" rel="stylesheet" />
+
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+	<script src="js/ng-when.js"></script>
+	<script>
+
+		var app = angular.module('ngWhenDemo', [
+			'ngWhen'
+		]);
+
+		app.controller('myController', function($scope, $timeout) {
+
+			$scope.hotels = [{
+				name : 'Majestic',
+				description : 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+			}, {
+				name : 'Majestic',
+				description : 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...',
+				tooltip : null
+			}, {
+				name : 'Majestic',
+				description : 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...',
+				tooltip : null
+			}];
+
+			$scope.tooltipOpts = {
+				maxWidth : 200
+			};
+
+			$scope.reply = [];
+			$scope.doSomething = function(index) {
+				console.log('The tooltip', index, 'is ready');
+				$scope.reply.push('tooltip ' + index + ' ready');
+			};
+
+			// add tooltip value after init to simulate maybe an ajax request or something...
+			$timeout(function() {
+				angular.forEach($scope.hotels, function(hotel) {
+					hotel.tooltip = 'I\'m a tooltip inited only when all what I need is present in the view...';
+				});
+			}, 2000);
+
+		});
+
+	</script>
+
+	<title>ng-when</title>
+
+</head>
+<body ng-app="ngWhenDemo" ng-controller="myController">
+
+	<div class="container" style="text-align:center;">
+
+		<div class="jumbotron">
+			<h1>ng-when</h1>
+			<p>This angular module allows you to execute from your views some code when a condition is validated</p>
+			<p>A jQuery init helper is also available</p>
+		</div>
+
+		<p ng-show="reply.length">
+			{{ reply.join(',') }}
+		</p>
+
+		<ul class="list-unstyled">
+			<li class="col-md-4" ng-repeat="hotel in hotels" style="margin-bottom:50px">
+				<h2>{{ hotel.name }}</h2>
+				<p>{{ hotel.description }}</p>
+				<button class="btn"
+					ng-class="{true:'btn-info'}[hotel.tooltip != null]"
+					title="{{ hotel.tooltip }}"
+					ng-when="hotel.tooltip"
+					do="doSomething($index)"
+					do-jquery-init="tooltipster"
+					do-jquery-options="tooltipOpts">
+					<span ng-if="hotel.tooltip">Roll over me</span>
+					<span ng-if=" ! hotel.tooltip">I miss my tooltip text...</span>
+				</button>
+			</li>
+		</ul>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "ng-when",
+  "main": "ng-when.js",
+  "version": "1.0.3",
+  "homepage": "https://github.com/olivierbossel/ng-when",
+  "authors": [
+    "Olivier Bossel <olivier.bossel@gmail.com>"
+  ],
+  "description": "Angular module that provide directive to execute code when a condition is validated directly from your views",
+  "keywords": [
+    "angular",
+    "when",
+    "ng-when",
+    "olivierbossel"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
